@@ -1,85 +1,104 @@
 # Project Big Tester
 
-Project Big Tester is a personal asset-management and automated-operations platform. It combines a Next.js dashboard, a FastAPI service boundary, time-series data storage, scheduled processing, AI-assisted analysis, and safety controls for local operation.
+**Project Big Tester** は、資産状況の可視化、AIによる分析支援、リスク管理を組み合わせた個人向け資産管理・自動運用プラットフォームです。
 
-This repository is the **sanitized public source edition** of the system. It publishes the real user interface, platform contracts, configuration patterns, data models, security primitives, and infrastructure shape. It is not a mock product or a generated demo.
+Next.jsによるダッシュボード、FastAPIによるサービス境界、時系列データ基盤、スケジュール実行、AI支援、安全装置を、ローカル環境で役割ごとに分離して運用する設計です。
 
-## Publication Boundary
+本リポジトリは、Project Big Testerの**サニタイズ済み技術公開版**です。画面、プラットフォーム境界、設定パターン、データ基盤、安全設計、インフラ構成を公開しつつ、個人情報、機密情報、投資判断ロジックは除外しています。生成されたデモ製品ではありません。
 
-The source is intentionally not sufficient to connect to a broker, a bank, or a live account. The following private materials have been removed:
+---
 
-- Credentials, account identifiers, personal data, local configuration, logs, backups, and real market or portfolio data.
-- Broker and bank adapters, live-order execution, account synchronization, and production notification configuration.
-- Strategy implementations, signals, ranking and selection rules, thresholds, allocation formulas, prompts, optimizers, backtests, and research results.
-- Internal runbooks, incident records, task histories, and environment-specific operational documents.
+## 公開範囲と除外範囲
 
-The remaining code demonstrates the platform's engineering structure without exposing the investment decision logic or creating a route to execute trades.
+公開版には、実際に使用しているFrontend、設定・認可・レート制限・構造化ログなどの共通基盤、データベース接続、AI・シークレット管理の境界、コンテナ構成を含めています。
 
-## Core Capabilities
+次の内容は公開していません。
 
-- Portfolio, history, analytics, monitoring, reports, and timeline views implemented with Next.js, React, and TypeScript.
-- FastAPI-oriented service boundary with configuration, authentication, rate-limiting, structured logging, and health-oriented design.
-- SQLAlchemy data models for portfolio state, auditability, system status, and time-series persistence.
-- A fail-safe kill-switch implementation that blocks new execution paths while preserving the ability to close existing positions.
-- Podman/Docker-oriented PostgreSQL and TimescaleDB infrastructure patterns with localhost-only service exposure.
-- Separation of AI-assisted analysis from the execution path, and parameter-store based secret-management patterns.
+- 認証情報、口座識別子、個人情報、ローカル設定、ログ、バックアップ、実市場データ、実ポートフォリオデータ
+- 証券・銀行APIの実装、口座同期、発注処理、本番通知設定
+- 銘柄選定、売買シグナル、評価基準、閾値、配分計算、プロンプト、最適化、バックテスト、調査結果
+- 内部運用手順、障害記録、タスク履歴、環境固有の資料
 
-## Architecture
+そのため、このリポジトリ単体では証券口座・銀行口座への接続や発注はできません。
+
+---
+
+## 主な機能
+
+- Next.js、React、TypeScriptで実装したポートフォリオ、分析、監視、レポート、タイムライン画面
+- FastAPIを前提としたサービス境界と、設定・認可・レート制限・構造化ログの基盤
+- SQLAlchemyによる資産状態、監査性、システム状態、時系列データ保存の設計
+- 異常時に新規実行を抑止するフェイルセーフ設計
+- PostgreSQL / TimescaleDBとPodman / Dockerを前提としたローカルインフラ構成
+- AIによる分析・レポートと、実行経路を分離する設計
+- パラメータストアを用いたシークレット分離の設計
+
+---
+
+## アーキテクチャ
 
 ```text
-Next.js dashboard
+Next.js ダッシュボード
        |
        v
-FastAPI service boundary
+FastAPI サービス境界
        |
-       +-- configuration, authorization, rate limits, structured logging
-       +-- safety controls and audit-oriented models
+       +-- 設定 / 認可 / レート制限 / 構造化ログ
+       +-- 安全装置 / 監査向けデータモデル
        |
        v
 PostgreSQL / TimescaleDB
 
-Private modules excluded from this edition:
-market adapters, account adapters, strategy engine, execution engine,
-backtests, optimization, prompts, production secrets, operational data
+非公開モジュール:
+市場・口座アダプタ、投資判断、発注、バックテスト、最適化、
+AIプロンプト、本番用シークレット、運用データ
 ```
 
-## Technology Stack
+---
 
-| Area | Technology |
+## 技術スタック
+
+| 領域 | 技術・方針 |
 | --- | --- |
-| Frontend | Next.js 16, React 19, TypeScript, CSS Modules, Recharts |
-| Backend | Python 3.11, FastAPI, SQLAlchemy 2.0, Pydantic |
-| Database | SQLite for local development; PostgreSQL and TimescaleDB for time-series workloads |
-| Scheduling | APScheduler design for time-based platform jobs |
-| AI | Provider-agnostic analysis and reporting integration pattern |
-| Security | AWS Systems Manager Parameter Store, KMS, server-side authorization, rate limiting |
-| Infrastructure | Windows, Podman, docker-compose, localhost-only container ports |
+| Frontend | Next.js 16、React 19、TypeScript、CSS Modules、Recharts |
+| Backend | Python 3.11、FastAPI、SQLAlchemy 2.0、Pydantic |
+| Database | SQLite、PostgreSQL、TimescaleDB |
+| Scheduler | 時間ベースのプラットフォームジョブを実行するスケジューラ設計 |
+| AI | 分析・レポート向けのプロバイダ非依存な連携設計 |
+| Security | AWS Systems Manager Parameter Store、KMS、サーバー側認可、レート制限 |
+| Infrastructure | Windows、Podman、docker-compose、localhost限定のサービス公開 |
 
-## Repository Structure
+---
+
+## ディレクトリ構成
 
 ```text
 .
-├── frontend/                 # Actual dashboard source and API proxy boundary
+├── frontend/                 # 実ダッシュボードとAPIプロキシ境界
 ├── backend/
-│   ├── src/core/             # Configuration, logging, authorization, rate limits, safety controls
-│   ├── src/models/           # SQLAlchemy persistence and API schemas
-│   └── requirements.txt      # Backend dependency definition
-├── docker/postgres/          # Database initialization
-├── docs/                     # Public architecture and safety documentation
-└── docker-compose.yml        # Sanitized local infrastructure definition
+│   ├── src/core/             # 設定、ログ、認可、レート制限、安全設計
+│   ├── src/models/           # DB接続と公開可能なAPIスキーマ
+│   └── requirements.txt      # Backend依存関係
+├── docker/postgres/          # DB初期化
+├── docs/                     # 公開用アーキテクチャ資料
+└── docker-compose.yml        # サニタイズ済みローカルインフラ構成
 ```
 
-## Safety Design
+---
 
-- **Fail-safe first**: the kill switch is designed to suppress new execution when a safety condition is active. Re-enabling is a deliberate, auditable action.
-- **Secret separation**: credentials are supplied at runtime through a secret-management boundary and are never committed to source control.
-- **Least exposure**: infrastructure services bind only to localhost by default; the public source has no live account adapter or order execution module.
-- **AI isolation**: AI supports analysis and reporting. It is not the only control point for an execution decision.
-- **Auditability**: structured logs and persistence models are designed to retain operational state and safety events without committing personal data to the repository.
+## セキュリティとセーフティ設計
 
-## Local Review
+- **フェイルセーフ**: 安全条件に該当する場合、新規実行を抑止する方針です。復旧は意図的かつ監査可能な操作として扱います。
+- **シークレット分離**: 認証情報は実行時にシークレット管理境界から取得し、ソースコードには含めません。
+- **最小公開**: コンテナのポートはlocalhostに限定し、公開版には口座接続・発注モジュールを含めません。
+- **AIの分離**: AIは分析・レポートを補助します。実行判断がAI応答だけに依存しない設計です。
+- **監査性**: 構造化ログと状態モデルにより、個人データをリポジトリへ残さずに運用状態を確認できるようにします。
 
-The frontend can be inspected and built independently:
+---
+
+## ローカルでの確認
+
+Frontendは独立して確認できます。
 
 ```powershell
 cd frontend
@@ -88,8 +107,8 @@ npm run lint
 npm run build
 ```
 
-The backend files in this public edition are architectural and safety components. Production adapters, strategy modules, runtime secrets, and execution wiring are intentionally absent, so this repository must not be used to connect to financial accounts or place orders.
+公開版のBackendは、アーキテクチャと安全設計を確認するためのコンポーネントです。本番アダプタ、投資ロジック、実行配線、実行時シークレットを意図的に除外しているため、金融口座への接続や発注には使用できません。
 
-## Disclaimer
+---
 
-This repository is a technical publication. It is not investment advice, an offer of investment services, or software for executing financial transactions.
+*Disclaimer: 本リポジトリは技術公開を目的としたものであり、投資助言、金融サービスの提供、金融取引の実行を目的とするものではありません。*
