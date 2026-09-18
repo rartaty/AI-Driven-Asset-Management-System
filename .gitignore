@@ -1,0 +1,32 @@
+# Runtime and dependency artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.next/
+*.log
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+.aws/
+
+# Local financial and operational data
+*.db
+*.sqlite*
+*.parquet
+backups/
+.kill.lock
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

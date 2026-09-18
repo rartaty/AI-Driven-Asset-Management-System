@@ -1,0 +1,159 @@
+/* ===============================================================
+ * reports/page.module.css
+ * P12 Step 8 (2026-05-18・ADR-0017): Tailwind utility → CSS Modules.
+ * AI Report Album (Daily/Monthly/Annual レポート一覧)
+ * =============================================================== */
+
+.loadingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16rem; /* h-64 = 256px */
+}
+
+.loadingText {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  color: #94a3b8; /* slate-400 */
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  /* header section wrapper */
+}
+
+.heading {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #f1f5f9; /* slate-100 */
+}
+
+.subheading {
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* === Report card === */
+.card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(15, 23, 42, 0.4); /* slate-900/40 */
+  border: 1px solid rgba(30, 41, 59, 0.6); /* slate-800/60 */
+  backdrop-filter: blur(4px);
+  transition: background-color 200ms;
+}
+
+.card:hover {
+  background-color: rgba(30, 41, 59, 0.4); /* slate-800/40 */
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.date {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.actionBtn {
+  opacity: 0;
+  transition: opacity 200ms;
+  color: #818cf8; /* indigo-400 */
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.actionBtn:hover {
+  color: #a5b4fc; /* indigo-300 */
+}
+
+.card:hover .actionBtn {
+  opacity: 1;
+}
+
+/* === Type badge === */
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.badgeDaily {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #93c5fd; /* blue-300 */
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.badgeMonthly {
+  background-color: rgba(168, 85, 247, 0.2);
+  color: #d8b4fe; /* purple-300 */
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.badgeAnnual {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fcd34d; /* amber-300 */
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* === Summary box === */
+.summaryBox {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(2, 6, 23, 0.5); /* slate-950/50 */
+  border: 1px solid rgba(30, 41, 59, 0.5); /* slate-800/50 */
+}
+
+.summaryLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.summaryText {
+  color: #cbd5e1;
+  line-height: 1.625;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 0;
+  color: #64748b;
+}

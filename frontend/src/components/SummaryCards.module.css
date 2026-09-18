@@ -1,0 +1,89 @@
+/* ===============================================================
+ * SummaryCards.module.css
+ * P12 Step 2 (2026-05-18・ADR-0017): Tailwind utility → CSS Modules.
+ * 共通の .glass-card / .glass-panel は globals.css に維持.
+ * =============================================================== */
+
+/* === 全体グリッド === */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* === Total Asset Value (メインカード) === */
+.total {
+  padding: 1.5rem;
+  border-left: 3px solid var(--color-neon-green);
+}
+
+@media (min-width: 768px) {
+  .total {
+    grid-column: span 2 / span 2;
+  }
+}
+
+.totalLabel {
+  color: var(--color-neon-green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 8px rgba(178, 255, 5, 0.4));
+}
+
+.totalValue {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+}
+
+/* === サブカード (Cash / Trust / Long) === */
+.card {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 3px solid;
+  transition: transform 300ms, box-shadow 300ms;
+}
+
+.card:hover {
+  transform: translateY(-0.25rem);
+}
+
+.cardCash {
+  border-bottom-color: var(--color-neon-blue);
+  box-shadow: 0 4px 15px -3px rgba(0, 229, 255, 0.1);
+}
+
+.cardTrust {
+  border-bottom-color: var(--color-neon-green);
+  box-shadow: 0 4px 15px -3px rgba(178, 255, 5, 0.1);
+}
+
+.cardLong {
+  border-bottom-color: var(--color-neon-red);
+  box-shadow: 0 4px 15px -3px rgba(255, 51, 102, 0.1);
+}
+
+.cardLabel {
+  color: #94a3b8; /* slate-400 相当 */
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.cardValue {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+}

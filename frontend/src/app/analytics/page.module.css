@@ -1,0 +1,421 @@
+/* Analytics Page — Tier 1 朝バッチ銘柄選定可視化 (2026-05-27) */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #00f0ff, #00e682);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 0.25rem;
+}
+
+.subheading {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.loadingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.loadingText {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+}
+
+.emptyCard {
+  padding: 3rem;
+  text-align: center;
+}
+
+.emptyText {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 0.75rem;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.emptyHint code {
+  background: rgba(0, 240, 255, 0.12);
+  color: #00f0ff;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* ========== Layout (2 col) ========== */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 320px 1fr;
+  }
+}
+
+/* ========== Summary List (left) ========== */
+.summaryList {
+  padding: 1.25rem;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.5rem;
+}
+
+.sectionTitleHot {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: #00e682;
+}
+
+.sectionTitleWeak {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: #ff5577;
+}
+
+.snapshotUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.snapshotBtn {
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.snapshotBtn:hover {
+  background: rgba(0, 240, 255, 0.06);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.snapshotBtnActive {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.55);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.snapshotTime {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.snapshotMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.25rem;
+}
+
+.snapshotType {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.snapshotPicks {
+  color: #00f0ff;
+  font-weight: 600;
+}
+
+.snapshotModel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: monospace;
+}
+
+/* ========== Detail Area (right) ========== */
+.detailArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detailLoading {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========== Context Card ========== */
+.contextCard {
+  padding: 1.25rem 1.5rem;
+}
+
+.contextGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .contextGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.2rem;
+}
+
+.value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.macroContext {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.macroText {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.3rem 0 0;
+  white-space: pre-wrap;
+}
+
+.sourcesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.sourceTag {
+  font-size: 0.7rem;
+  background: rgba(0, 240, 255, 0.1);
+  color: #00f0ff;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+/* ========== Sector Row ========== */
+.sectorRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .sectorRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sectorCard {
+  padding: 1rem 1.25rem;
+}
+
+.sectorUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sectorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.sectorName {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sectorScoreHot {
+  color: #00e682;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.sectorScoreWeak {
+  color: #ff5577;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* ========== Picks Table ========== */
+.picksCard {
+  padding: 1.25rem 1.5rem;
+}
+
+.picksTableWrap {
+  overflow-x: auto;
+}
+
+.picksTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.picksTable th {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.picksTable td {
+  padding: 0.7rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  vertical-align: top;
+}
+
+.picksTable tr:hover td {
+  background: rgba(0, 240, 255, 0.03);
+}
+
+.rank {
+  color: rgba(255, 255, 255, 0.45);
+  font-family: monospace;
+  width: 32px;
+}
+
+.numRight {
+  text-align: right;
+  font-family: monospace;
+}
+
+.codeCell {
+  font-family: monospace;
+}
+
+.codeLink {
+  color: #00f0ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.codeLink:hover {
+  text-decoration: underline;
+}
+
+/* Trigger badge (A/B/C/D) */
+.triggerBadge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  margin-right: 0.4rem;
+  font-family: monospace;
+}
+
+.triggerLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.triggerA {
+  background: rgba(0, 240, 255, 0.18);
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+}
+
+.triggerB {
+  background: rgba(255, 200, 0, 0.18);
+  color: #ffc800;
+  border: 1px solid rgba(255, 200, 0, 0.4);
+}
+
+.triggerC {
+  background: rgba(170, 100, 255, 0.18);
+  color: #c891ff;
+  border: 1px solid rgba(170, 100, 255, 0.4);
+}
+
+.triggerD {
+  background: rgba(0, 230, 130, 0.18);
+  color: #00e682;
+  border: 1px solid rgba(0, 230, 130, 0.4);
+}
+
+/* Themes */
+.themesCell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.themeTag {
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+}
+
+/* Reasoning column (narrow + ellipsis on overflow) */
+.reasoningCell {
+  max-width: 280px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}

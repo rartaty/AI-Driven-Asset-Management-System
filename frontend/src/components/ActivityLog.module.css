@@ -1,0 +1,183 @@
+/* ===============================================================
+ * ActivityLog.module.css
+ * P12 Step 7 (2026-05-18・ADR-0017): Tailwind utility → CSS Modules.
+ * AI Timeline & Events (タイムライン + Status panel)
+ * =============================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* === タイムライン card === */
+.timelineCard {
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* === Activity item === */
+.item {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.itemTrade {
+  cursor: pointer;
+}
+
+.markerCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  margin-top: 0.375rem;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.dotLoss {
+  background-color: var(--color-neon-red);
+  color: var(--color-neon-red);
+}
+
+.dotProfit {
+  background-color: var(--color-neon-green);
+  color: var(--color-neon-green);
+}
+
+.dotEvent {
+  background-color: var(--color-neon-blue);
+  color: var(--color-neon-blue);
+}
+
+.connector {
+  width: 1px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0.25rem 0;
+}
+
+/* === Body === */
+.body {
+  padding-bottom: 1rem;
+  flex: 1;
+}
+
+.timestamp {
+  color: #64748b; /* slate-500 */
+  font-size: 0.75rem;
+  margin-bottom: 0.125rem;
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: #cbd5e1; /* slate-300 (event) */
+}
+
+.itemTitleTrade {
+  font-weight: 600;
+  color: #ffffff;
+  transition: color 200ms;
+}
+
+.item:hover .itemTitleTrade {
+  color: var(--color-neon-green);
+}
+
+.description {
+  color: #94a3b8; /* slate-400 */
+  margin-top: 0.25rem;
+}
+
+.cta {
+  font-size: 0.625rem;
+  color: var(--color-neon-blue);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.item:hover .cta {
+  opacity: 1;
+}
+
+.empty {
+  color: #64748b;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* === Status panel === */
+.statusPanel {
+  padding: 1.5rem;
+  border-left: 3px solid var(--color-neon-green);
+}
+
+.statusTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-neon-green);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.statusIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.statusList {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.statusItem {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+}
+
+.statusItemBordered {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.statusValue {
+  color: var(--color-neon-green);
+  font-weight: 600;
+  filter: drop-shadow(0 0 5px rgba(178, 255, 5, 0.3));
+}

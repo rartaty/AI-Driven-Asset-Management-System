@@ -1,0 +1,50 @@
+pytest==8.0.0
+pytest-mock==3.12.0
+pandas>=2.2.0
+openpyxl>=3.1.0
+numpy>=1.26.0
+fastapi>=0.109.0
+uvicorn>=0.27.0
+sqlalchemy>=2.0.0
+pydantic>=2.5.0
+apscheduler>=3.10.4
+requests>=2.31.0
+yfinance>=0.2.36
+# Phase 4: AWS SSM 経由シークレット取得 (要件 E.6.1 / ADR-0003)
+boto3>=1.34.0
+# Phase 4: 構造化ログ (要件 E.7 / 監査 P4)
+python-json-logger>=2.0.7
+# Phase 5b: EDINET XBRL 解析
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+# Phase 7: kabu Station Push API 接続 (要件 §B.2 / ADR-0009)
+websocket-client>=1.7.0
+# Phase 8e: PostgreSQL ドライバ (ADR-0014 / Step 8e-2)
+# psycopg3 (新ドライバ) を採用。理由:
+# - Windows で psycopg2 が UnicodeDecodeError 0x83 を起こす根本問題を回避
+# - SQLAlchemy 2.0 公式推奨 (DSN: postgresql+psycopg://...)
+# - async/await サポート (Phase 9 LLM 並列呼び出しで活用見込み)
+# - 開発活発 (psycopg2 はメンテナンスモード)
+psycopg[binary]>=3.2.0
+# Phase 8e: マイグレーション管理 (ADR-0014 / Step 8e-3)
+alembic>=1.13.0
+# Phase 8e: Parquet アーカイブバッチ (ADR-0014 / Step 8e-9)
+# 月次 tick データを Zstd 圧縮 Parquet へエクスポート (~10x 圧縮)
+pyarrow>=15.0
+# SEC-7: pre-commit hook framework (gitleaks 等の git hook 統合)
+# 開発専用。本番ランタイムには不要だが venv 統一のため requirements.txt 同梱
+pre-commit>=3.0
+# Phase 9 / AI-9: RSS aggregator (rss.wor.jp 14 フィード解析)
+# RSS/Atom 共通 parser として de facto standard
+feedparser>=6.0
+# Phase 9 / HYBRID-8: TDnet 適時開示 PDF 本文抽出
+pypdf>=4.0
+# Phase 9 / AI-8: LLM 抽象化レイヤ (ADR-0018: GPT-5.5 定性 + Gemini 3.5 Flash 定量)
+# google-genai: Gemini Developer API SDK (Pydantic Structured Output ネイティブ対応)
+# openai:       OpenAI SDK (responses.parse で Pydantic ネイティブ対応・GPT-5.5 用)
+# tenacity:     宣言的 retry/backoff (LLM 呼び出しの transient error 復旧)
+google-genai>=1.0
+openai>=1.0
+tenacity>=8.0
+# Phase 9 / Tier 1: prompts/*.md テンプレート render (Jinja2 {{var}} → 値注入)
+jinja2>=3.0
