@@ -43,24 +43,40 @@
 
 ### Frontend
 
-- Next.js 16 / React 19 / TypeScript
-- CSS ModulesとRechartsによるダッシュボードUI
-- ポートフォリオ、分析、監視、レポート、タイムライン向けの画面実装
-- サーバー側APIプロキシと、外部サービス接続を分離する境界
+- **言語/フレームワーク**: Next.js 16 / React 19 / TypeScript
+- **スタイリング**: CSS Modules
+- **可視化**: Recharts
+- **画面**: ポートフォリオ、分析、監視、レポート、タイムライン
+- **API境界**: サーバー側APIプロキシにより、ブラウザと外部サービス接続を分離
 
-### Backend・データ基盤
+### Backend
 
-- Python 3.11 / FastAPI / Pydantic
-- SQLAlchemy 2.0によるDB接続とデータモデル設計
-- SQLiteを用いたローカル開発、およびPostgreSQL / TimescaleDBを用いた時系列データ基盤
-- 設定読込、サーバー側認可、レート制限、構造化ログ、コスト保護の共通コンポーネント
+- **言語/フレームワーク**: Python 3.11 / FastAPI / Pydantic
+- **ORM**: SQLAlchemy 2.0
+- **タスクスケジューリング**: APSchedulerを用いた時間ベースの処理設計
+- **データ処理**: pandasおよび市場データ連携を用いる設計
+- **共通基盤**: 設定読込、サーバー側認可、レート制限、構造化ログ、コスト保護
+
+### データベース
+
+- **ローカル開発**: SQLite
+- **時系列・本番運用**: PostgreSQL 15 / TimescaleDB
+- **マイグレーション**: Alembicを用いる設計
+
+### AI・外部連携
+
+- **AI**: 市場コンテキスト分析、状態評価、事後レポートの補助
+- **市場・企業データ**: 証券APIおよび市場データサービスと連携する設計
+- **銀行情報**: 銀行APIを通じた資産情報の参照設計
+- **通知**: 運用状態・異常・処理結果を通知チャネルへ連携する設計
 
 ### インフラ・セキュリティ
 
-- Windows、Podman、docker-composeを前提としたローカルコンテナ構成
-- PostgreSQL / TimescaleDBの初期化と、localhost限定のポート公開
-- AWS Systems Manager Parameter StoreとKMSを用いたシークレット分離の設計
-- AI・通知・外部データ連携を、認証値をコードへ持ち込まずに扱う設計
+- **実行環境**: Windows / Podman / docker-compose
+- **コンテナ**: PostgreSQL / TimescaleDB、FastAPI、Next.jsの分離構成
+- **ネットワーク**: localhost限定のポート公開
+- **シークレット管理**: AWS Systems Manager Parameter Store / KMS
+- **安全設計**: 実行経路とAI分析を分離し、認証値をソースコードへ持ち込まない方針
 
 ---
 
